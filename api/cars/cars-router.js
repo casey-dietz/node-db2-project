@@ -28,5 +28,15 @@ router.get('/:id', mw.checkCarId, (req, res) => {
         })
 })
 
+router.post('/', mw.checkCarPayload, mw.checkVinNumberUnique, mw.checkVinNumberValid, (req, res) => {
+    cars.create(req.body)
+        .then(car => {
+            res.status(201).json(car)
+        })
+        .catch(err => {
+            console.log(err)
+            res.status(500).json({message: err.message})
+        })
+})
 
 module.exports = router;
